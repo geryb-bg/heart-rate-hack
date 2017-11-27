@@ -1,0 +1,8 @@
+<h1 class="value">
+    {{heartRate || 'Click Heart to Connect'}}
+</h1>
+
+<div class="heart">
+    <img src="../assets/img/heart.png" class="heart-rate first-heart" *ngIf="connected" />
+    <img src="../assets/img/heart.png" class="heart-rate" (click)="connectToDevice()" *ngIf="!connected" />
+</div>

@@ -1,0 +1,28 @@
+.heart {
+    text-align: center;
+    padding-top: 150px;
+}
+
+.heart-rate {
+    height: 70px;
+}
+
+.heart .first-heart{
+    fill: #f00;
+    transform: scale(0.5);
+    transform-origin: center center;
+    animation: pulse-me 2s alternate infinite;
+}
+
+@keyframes pulse-me{
+    0%{
+        transform: scale(0.5);
+    }
+    100%{
+        transform: scale(2);
+    }
+}
+
+.value {
+    text-align: center;
+}
