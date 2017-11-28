@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BluetoothCore } from '../../ng-bluetooth/angular-web-bluetooth';
 import { HeartRateService } from './heart-rate.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,8 @@ import { HeartRateService } from './heart-rate.service';
 export class AppComponent {
   heartRate: number;
   connected: boolean = false;
-  device: any;
+
+  private subscription: Subscription = new Subscription();;
 
   constructor(public heartRateService: HeartRateService) { }
 
@@ -20,26 +22,35 @@ export class AppComponent {
   }
 
   getDeviceStatus() {
-    this.heartRateService.getBleDevice().subscribe(
-      (device) => {
-
+    const deviceSubscription = this.heartRateService.getBleDevice()
+      .subscribe((device) => {
         if (device) {
-          this.device = device;
           this.connected = true;
         }
         else {
-          this.device = null;
           this.connected = false;
         }
-      }
-    );
+      });
+    this.subscription.add(deviceSubscription);
   }
 
   updateHeartRateValue() {
-    this.heartRateService.streamValues().subscribe(x => this.heartRate = x);
+    const streamSubscription = this.heartRateService.streamValues()
+      .subscribe(x => {
+        this.heartRate = x;
+        console.log(x);
+      });
+    this.subscription.add(streamSubscription);
   }
 
   connectToDevice() {
-    return this.heartRateService.getHeartRate().subscribe(x => this.heartRate = x);
+    const deviceSubscription = this.heartRateService.getHeartRate()
+      .subscribe(x => this.heartRate = x);
+    this.subscription.add(deviceSubscription);
+    return deviceSubscription;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
