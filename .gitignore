@@ -58,3 +58,4 @@ typings/
 .env
 
 ng-bluetooth/
+dist/
