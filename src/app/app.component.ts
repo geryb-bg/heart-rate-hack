@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BluetoothCore } from '../../ng-bluetooth/angular-web-bluetooth';
+import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { HeartRateService } from './heart-rate.service';
 import { Subscription } from 'rxjs/Subscription';
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BluetoothCore } from '../../ng-bluetooth/angular-web-bluetooth';
+import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -21,9 +21,15 @@ export class HeartRateService {
   getHeartRate() {
     return this.ble
       .discover$({ filters: [{ services: [this.HeartRatePrimaryService] }] })
-      .mergeMap(gatt => this.ble.getPrimaryService$(gatt, this.HeartRatePrimaryService))
+      .mergeMap(gatt => {
+        let gattServer = gatt as BluetoothRemoteGATTServer;
+        return this.ble.getPrimaryService$(gattServer, this.HeartRatePrimaryService)
+      })
       .mergeMap(primaryService => this.ble.getCharacteristic$(primaryService, this.HeartRateCharacteristic))
-      .mergeMap(characteristic => this.ble.readValue$(characteristic))
+      .mergeMap(characteristic => {
+        let gattChar = characteristic as BluetoothRemoteGATTCharacteristic;
+        return this.ble.readValue$(gattChar)
+      })
       .map(value => this.parseHeartRate(value))
   }
 
