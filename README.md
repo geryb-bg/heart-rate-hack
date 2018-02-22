@@ -16,7 +16,7 @@ Using the angular bluetooth module created by [manekinekko](https://github.com/m
 5. [Web Bluetooth Community Group](https://github.com/WebBluetoothCG)
 6. [The Web Bluetooth Security Model](https://medium.com/@jyasskin/the-web-bluetooth-security-model-666b4e7eed2)
 
-## Tak References
+## Talk References
 
 - [Slides](slides.pdf) from my talk at GDG Jhb on 6 December 2017.
 - [Video](https://www.youtube.com/watch?v=6B1peJkqEGQ) from my talk at Jozi.JS on 18 January 2018.
