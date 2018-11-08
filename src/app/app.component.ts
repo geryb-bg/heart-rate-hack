@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
+import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { HeartRateService } from './heart-rate.service';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-root',

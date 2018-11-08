@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "dist/heart-rate-hack",
     "ignore": [
       "firebase.json",
       "**/.*",

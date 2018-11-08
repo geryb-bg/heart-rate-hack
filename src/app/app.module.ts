@@ -6,7 +6,6 @@ import { HeartRateService } from './heart-rate.service';
 
 import { AppComponent } from './app.component';
 
-
 @NgModule({
   declarations: [
     AppComponent

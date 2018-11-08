@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
-import { Observable } from 'rxjs/Observable';
+import { map, mergeMap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class HeartRateService {
 
   constructor(private ble: BluetoothCore) { }
@@ -15,22 +17,23 @@ export class HeartRateService {
   }
 
   streamValues() {
-    return this.ble.streamValues$().map(value => this.parseHeartRate(value));
+    return this.ble.streamValues$().pipe(map(value => this.parseHeartRate(value)));
   }
 
   getHeartRate() {
     return this.ble
       .discover$({ filters: [{ services: [this.HeartRatePrimaryService] }] })
-      .mergeMap(gatt => {
+      .pipe(
+        mergeMap(gatt => {
         let gattServer = gatt as BluetoothRemoteGATTServer;
         return this.ble.getPrimaryService$(gattServer, this.HeartRatePrimaryService)
-      })
-      .mergeMap(primaryService => this.ble.getCharacteristic$(primaryService, this.HeartRateCharacteristic))
-      .mergeMap(characteristic => {
+      }),
+      mergeMap(primaryService => this.ble.getCharacteristic$(primaryService, this.HeartRateCharacteristic)),
+      mergeMap(characteristic => {
         let gattChar = characteristic as BluetoothRemoteGATTCharacteristic;
         return this.ble.readValue$(gattChar)
-      })
-      .map(value => this.parseHeartRate(value))
+      }),
+      map(value => this.parseHeartRate(value)));
   }
 
   parseHeartRate(value: DataView): number {
